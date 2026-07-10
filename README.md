@@ -19,12 +19,12 @@ Under development
 ### v0.1 - Foundation
 
 - [x] Repository setup
-- [ ] Python environment
-- [ ] Project architecture
+- [x] Python environment
+- [x] Project architecture
 
 ### v0.2 - Data
 
-- [ ] Market data loader
+- [x] Market data loader
 - [ ] Data storage
 
 ### v0.3 - Research
