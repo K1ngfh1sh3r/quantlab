@@ -1,12 +1,12 @@
 import yfinance as yf
 from datetime import date
-import pandas
+import pandas as pd
 
 def download_market_data(
     ticker:str,
     start:date,
     end:date
-    ) -> pandas.DataFrame :
+    ) -> pd.DataFrame :
     """
     Download historical market data
     
@@ -16,7 +16,7 @@ def download_market_data(
     end: Ending date.
 
     Returns:
-    Historical OHLCV market data.
+        A panda DataFrame containig historical OHLCV market data.
     """
     market_data = yf.download(
         tickers=ticker,
