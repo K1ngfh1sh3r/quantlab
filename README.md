@@ -14,3 +14,30 @@ An open-source quantitative research and backtesting framework written in Python
 
 Under development
 
+## Roadmap
+
+### v0.1 - Foundation
+
+- [x] Repository setup
+- [x] Python environment
+- [x] Project architecture
+
+### v0.2 - Data
+
+- [x] Market data loader
+- [ ] Data storage
+
+### v0.3 - Research
+
+- [ ] Indicators
+- [ ] Trading strategies
+
+### v0.4 - Backtesting
+
+- [ ] Simulation engine
+- [ ] Performance metrics
+
+### v1.0
+
+- [ ] Documentation
+- [ ] Stable release
