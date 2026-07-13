@@ -10,7 +10,7 @@ def simple_moving_average(
     
     Args:
     data: pandas DataFrame containing market data
-    column: column on which the SMA is calculated 
+    column: Name of the Dataframe column on which the SMA is calculated 
     window: number of periods used to compute the moving average
     
     Returns:
@@ -23,4 +23,12 @@ def simple_moving_average(
         KeyError:
             If the requested column does not exist
     """
+    if window <= 0:
+        raise ValueError()
+    if column not in data.columns:
+        raise KeyError()
     
+    prices = data[column]
+    sma = prices.rolling(window).mean()
+    
+    return sma
