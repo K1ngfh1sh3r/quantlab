@@ -29,7 +29,7 @@ Under development
 
 ### v0.3 - Research
 
-- [ ] Indicators
+- [x] Indicators
 - [ ] Trading strategies
 
 ### v0.4 - Backtesting

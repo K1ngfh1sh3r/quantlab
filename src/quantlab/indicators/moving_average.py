@@ -24,9 +24,9 @@ def simple_moving_average(
             If the requested column does not exist
     """
     if window <= 0:
-        raise ValueError()
+        raise ValueError("window must be greater than 0")
     if column not in data.columns:
-        raise KeyError()
+        raise KeyError(f"Column {column} does not exist")
     
     prices = data[column]
     sma = prices.rolling(window).mean()
