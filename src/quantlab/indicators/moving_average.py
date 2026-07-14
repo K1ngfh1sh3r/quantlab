@@ -32,3 +32,12 @@ def simple_moving_average(
     sma = prices.rolling(window).mean()
     
     return sma
+
+def exponential_moving_average(
+    data: pd.DataFrame,
+    column: str,
+    window: int,
+) -> pd.Series:
+    """
+    
+    """

@@ -43,3 +43,4 @@ def test_simple_moving_average_with_different_column():
     sma = simple_moving_average(data, "Open", 2)
     expected = pd.Series([None, 1.5, 2.5, 3.5], name="Open")
     pd.testing.assert_series_equal(sma,expected)
+    

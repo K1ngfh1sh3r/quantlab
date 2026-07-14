@@ -14,6 +14,13 @@ An open-source quantitative research and backtesting framework written in Python
 
 Under development
 
+## Indicators
+
+Implemented:
+
+- Simple Moving Average (SMA)
+- Exponential Moving Average (EMA)
+
 ## Roadmap
 
 ### v0.1 - Foundation
