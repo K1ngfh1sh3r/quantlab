@@ -39,5 +39,32 @@ def exponential_moving_average(
     window: int,
 ) -> pd.Series:
     """
+    calculates the Exponential Moving Average (EMA)
     
+    Args:
+    data: pandas DataFrame containing market data
+    column: Name of the Dataframe column on which the EMA is calculated 
+    window: number of periods used to compute the moving average
+    
+    Returns:
+    A pandas Series containing the EMA
+    
+    Raises:
+        ValueError:
+            If window <= 0
+            
+        KeyError:
+            If the requested column does not exist
     """
+    if window <= 0:
+        raise ValueError("window must be greater than 0")
+    if column not in data.columns:
+        raise KeyError(f"Column {column} does not exist")
+    
+    prices = data[column]
+    ema = prices.ewm(
+        span=window,
+        adjust=False
+        ).mean()
+    
+    return ema
