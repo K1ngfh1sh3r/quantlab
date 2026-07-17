@@ -7,7 +7,7 @@ def relative_strength_index(
 ) -> pd.Series:
     """
     calculates the Relative Strength Index (RSI)
-    
+      
     Args:
     data: pandas DataFrame containing market data
     column: Name of the Dataframe column on which the RSI is calculated 
