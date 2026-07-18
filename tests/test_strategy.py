@@ -10,7 +10,7 @@ data = pd.DataFrame({
     ]
 })
 
-def test_moving_average_cross_returns_dataframe():
+def test_moving_average_crossover_returns_dataframe():
     result = moving_average_crossover(data, "Close", 3, 5)
     assert isinstance(result, pd.DataFrame)
     
