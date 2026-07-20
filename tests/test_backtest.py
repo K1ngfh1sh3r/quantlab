@@ -24,3 +24,11 @@ def test_sell():
     
     assert engine.cash == 9600
     assert engine.shares == 5
+    
+def test_buy_creates_trade_history():
+    engine = BacktestEngine(10000)
+    
+    engine.buy(100, 10)
+    
+    assert len(engine.trade_history) == 1
+    assert engine.trade_history[0]["type"] == "BUY"
