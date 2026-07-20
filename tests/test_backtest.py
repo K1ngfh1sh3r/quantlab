@@ -15,3 +15,12 @@ def test_buy():
     
     assert engine.cash == 9000
     assert engine.shares == 10
+    
+def test_sell():
+    engine = BacktestEngine(10000)
+    
+    engine.buy(100, 10)
+    engine.sell(120, 5)
+    
+    assert engine.cash == 9600
+    assert engine.shares == 5
