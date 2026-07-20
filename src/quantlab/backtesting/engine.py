@@ -50,3 +50,6 @@ class BacktestEngine:
                 "quantity": quantity
             }
         )
+        
+    def portfolio_value(self, price: float):
+        return self.cash + (self.shares * price)
