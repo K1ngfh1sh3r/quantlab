@@ -54,3 +54,22 @@ def test_sell_creates_trade_history():
     
     assert len(engine.trade_history) == 2
     assert engine.trade_history[1]["type"] == "SELL"
+    
+def test_portfolio_value_no_action():
+    engine = BacktestEngine(10000)
+    
+    assert engine.portfolio_value(100) == 10000
+    
+def test_portfolio_value_with_open_position():
+    engine = BacktestEngine(10000)
+    
+    engine.buy(100, 10)
+    assert engine.portfolio_value(120) == 10200
+    
+def test_portfolio_value_after_multiple_trades():
+    engine = BacktestEngine(10000)
+    
+    engine.buy(100, 10)
+    engine.sell(120, 5)
+    
+    assert engine.portfolio_value(110) == 10150

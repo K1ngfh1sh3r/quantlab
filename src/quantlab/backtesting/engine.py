@@ -15,7 +15,7 @@ class BacktestEngine:
     def buy(self,
             price: float,
             quantity: int
-    ):
+    ) -> None :
         cost = price * quantity
         if cost > self.cash:
             raise ValueError("not enough cash")
@@ -34,7 +34,7 @@ class BacktestEngine:
     def sell(self,
             price: float,
             quantity: int
-    ):
+    ) -> None :
         if quantity > self.shares:
             raise ValueError("Not enough shares")
         
@@ -51,5 +51,7 @@ class BacktestEngine:
             }
         )
         
-    def portfolio_value(self, price: float):
+    def portfolio_value(self, 
+                        price: float
+        ) -> float:
         return self.cash + (self.shares * price)
