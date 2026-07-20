@@ -19,3 +19,14 @@ class BacktestEngine:
         cost = price * quantity
         if cost > self.cash:
             return ValueError("not enough cash")
+        
+        self.cash -= cost
+        self.shares += quantity
+        
+        self.trade_history.append(
+            {
+                "type": "BUY",
+                "price": price,
+                "quantity": quantity
+            }
+        )
