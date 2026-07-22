@@ -79,6 +79,10 @@ class BacktestEngine:
         Returns:
             DataFrame containing portfolio evolution.
         """
+        self.trade_history = []
+        self.cash = self.initial_capital
+        self.shares = 0
+        
         if price_column not in data.columns:
             raise KeyError(f"Column {price_column} does not exist")
         

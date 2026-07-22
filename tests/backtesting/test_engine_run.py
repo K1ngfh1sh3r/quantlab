@@ -161,3 +161,21 @@ def test_run_invalid_signal_value():
             "Close",
             "Signal"
         )
+        
+def test_run_portfolio_evolution():
+    data = pd.DataFrame({
+        "Close": [100, 120, 130],
+        "Signal": [1, 0, 0]
+    })
+
+    engine = BacktestEngine(10000)
+    
+    result = engine.run(
+        data,
+        "Close",
+        "Signal"
+    )
+    
+    assert result["Portfolio_Value"].iloc[0] == 10000
+    assert result["Portfolio_Value"].iloc[1] == 10020
+    assert result["Portfolio_Value"].iloc[2] == 10030
