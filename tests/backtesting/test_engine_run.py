@@ -146,3 +146,18 @@ def test_run_invalid_signal_column():
             "Close",
             "Action"
         )
+        
+def test_run_invalid_signal_value():
+    data = pd.DataFrame({
+        "Close":[100],
+        "Signal":[5]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            "Close",
+            "Signal"
+        )

@@ -79,6 +79,12 @@ class BacktestEngine:
         Returns:
             DataFrame containing portfolio evolution.
         """
+        if price_column not in data.columns:
+            raise KeyError(f"Column {price_column} does not exist")
+        
+        if signal_column not in data.columns:
+            raise KeyError(f"Column {signal_column} does not exist")
+        
         result = data.copy()
         
         portfolio_values = []
@@ -87,6 +93,9 @@ class BacktestEngine:
             
             price = row[price_column]
             signal = row[signal_column]
+            
+            if signal not in [-1,0,1]:
+                raise ValueError("Invalid signal value")
             
             if signal == 1 and self.shares == 0:
                 self.buy(price,1)
