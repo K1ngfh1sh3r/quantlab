@@ -1,5 +1,6 @@
 from quantlab.backtesting.engine import BacktestEngine
 import pandas as pd
+import pytest
 
 
 def test_run_returns_dataframe():
@@ -72,7 +73,7 @@ def test_run_sell_signal():
         "Signal": [1, 0, -1]
     })
     
-    engine =BacktestEngine(10000)
+    engine = BacktestEngine(10000)
     
     engine.run(
         data,
@@ -88,7 +89,7 @@ def test_run_buy_and_sell_history():
         "Signal": [1, 0, -1]
     })
     
-    engine =BacktestEngine(10000)
+    engine = BacktestEngine(10000)
     
     engine.run(
         data,
@@ -115,3 +116,33 @@ def test_run_portfolio_value_calculation():
     )
     
     assert result["Portfolio_Value"].iloc[-1] == 10020
+    
+def test_run_invalid_price_column():
+    data = pd.DataFrame({
+        "Close": [100, 110],
+        "Signal": [0, 1]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(KeyError):
+        engine.run(
+            data,
+            "Price",
+            "Signal"
+        )
+
+def test_run_invalid_signal_column():
+    data = pd.DataFrame({
+        "Close": [100, 110],
+        "Signal": [0, 1]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(KeyError):
+        engine.run(
+            data,
+            "Close",
+            "Action"
+        )

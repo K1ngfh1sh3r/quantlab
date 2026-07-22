@@ -88,16 +88,16 @@ class BacktestEngine:
             price = row[price_column]
             signal = row[signal_column]
             
-            if signal == 1:
+            if signal == 1 and self.shares == 0:
                 self.buy(price,1)
             
-            elif signal == -1:
+            elif signal == -1 and self.shares > 0:
                 self.sell(price,1)
                 
             portfolio_values.append(
                 self.portfolio_value(price)
             )
             
-        result["Portfolio_Value"] = self.portfolio_values
+        result["Portfolio_Value"] = portfolio_values
         
         return result
