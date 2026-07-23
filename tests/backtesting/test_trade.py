@@ -18,14 +18,14 @@ def test_trade_type():
     
     engine.portfolio.buy(100, 5)
     
-    assert isinstance(engine.trade_history[0], Trade)
+    assert isinstance(engine.portfolio.trade_history[0], Trade)
     
 def test_trade_return():
     engine = BacktestEngine(10000)
     
     engine.portfolio.buy(100, 5)
     
-    trade = engine.trade_history[0]
+    trade = engine.portfolio.trade_history[0]
     
     assert trade.trade_type == "BUY"
     assert trade.price == 100
