@@ -25,12 +25,19 @@ class Trade:
         
         if trade_type not in self.valid_type:
             raise ValueError("Invalid trade type")
+        
+        if quantity <= 0:
+            raise ValueError("Quantity must be positive")
             
         self.trade_type = trade_type
         self.price = price
         self.quantity = quantity
         
-        
+    def is_buy(self) -> bool:
+        return self.trade_type == "BUY"
+    
+    def is_sell(self) -> bool:
+        return self.trade_type == "SELL"
     
     @property
     def value(self):

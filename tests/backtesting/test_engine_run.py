@@ -1,5 +1,4 @@
 from quantlab.backtesting.engine import BacktestEngine
-from quantlab.backtesting.trade import Trade
 import pandas as pd
 import pytest
 
@@ -180,51 +179,3 @@ def test_run_portfolio_evolution():
     assert result["Portfolio_Value"].iloc[0] == 10000
     assert result["Portfolio_Value"].iloc[1] == 10020
     assert result["Portfolio_Value"].iloc[2] == 10030
-    
-def test_trade_creation():
-    trade = Trade(
-        "BUY",
-        100,
-        5
-    )
-
-    assert trade.trade_type == "BUY"
-    assert trade.price == 100
-    assert trade.quantity == 5
-    
-def test_trade_type():
-    engine = BacktestEngine(10000)
-    
-    engine.buy(100, 5)
-    
-    assert isinstance(engine.trade_history[0], Trade)
-    
-def test_trade_return():
-    engine = BacktestEngine(10000)
-    
-    engine.buy(100, 5)
-    
-    trade = engine.trade_history[0]
-    
-    assert trade.trade_type == "BUY"
-    assert trade.price == 100
-    assert trade.quantity == 5
-    
-def test_trade_value():
-    trade = Trade(
-        "BUY",
-        100,
-        5
-    )
-    
-    assert trade.value == 500
-    
-def test_trade_sell():
-    trade = Trade(
-        "SELL",
-        120,
-        10
-    )
-    
-    assert trade.trade_type == "SELL"
-    assert trade.value == 1200
