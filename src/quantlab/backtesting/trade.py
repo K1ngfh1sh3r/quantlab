@@ -15,14 +15,22 @@ class Trade:
         quantity:
             Number of shares traded.
     """
+    valid_type = ["BUY","SELL"]
+    
     def __init__(self,
                 trade_type: str,
                 price: float,
                 quantity: int
         ) -> None:
+        
+        if trade_type not in self.valid_type:
+            raise ValueError("Invalid trade type")
+            
         self.trade_type = trade_type
         self.price = price
         self.quantity = quantity
+        
+        
     
     @property
     def value(self):
