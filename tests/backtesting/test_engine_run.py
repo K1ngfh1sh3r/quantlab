@@ -1,4 +1,5 @@
 from quantlab.backtesting.engine import BacktestEngine
+from quantlab.backtesting.trade import Trade
 import pandas as pd
 import pytest
 
@@ -98,8 +99,8 @@ def test_run_buy_and_sell_history():
     )
     
     assert len(engine.trade_history) == 2
-    assert engine.trade_history[0]["type"] == "BUY"
-    assert engine.trade_history[1]["type"] == "SELL"
+    assert engine.trade_history[0].trade_type == "BUY"
+    assert engine.trade_history[1].trade_type == "SELL"
     
 def test_run_portfolio_value_calculation():
     data = pd.DataFrame({
@@ -179,3 +180,41 @@ def test_run_portfolio_evolution():
     assert result["Portfolio_Value"].iloc[0] == 10000
     assert result["Portfolio_Value"].iloc[1] == 10020
     assert result["Portfolio_Value"].iloc[2] == 10030
+    
+def test_trade_creation():
+    trade = Trade(
+        "BUY",
+        100,
+        5
+    )
+
+    assert trade.trade_type == "BUY"
+    assert trade.price == 100
+    assert trade.quantity == 5
+    
+def test_trade_type():
+    engine = BacktestEngine(10000)
+    
+    engine.buy(100, 5)
+    
+    assert isinstance(engine.trade_history[0], Trade)
+    
+def test_trade_return():
+    engine = BacktestEngine(10000)
+    
+    engine.buy(100, 5)
+    
+    trade = engine.trade_history[0]
+    
+    assert trade.trade_type == "BUY"
+    assert trade.price == 100
+    assert trade.quantity == 5
+    
+def test_trade_value():
+    trade = Trade(
+        "BUY",
+        100,
+        5
+    )
+    
+    assert trade.value == 500

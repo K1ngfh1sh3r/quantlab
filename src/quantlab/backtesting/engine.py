@@ -1,4 +1,5 @@
 import pandas as pd
+from quantlab.backtesting.trade import Trade
 
 class BacktestEngine:
     """
@@ -26,11 +27,11 @@ class BacktestEngine:
         self.shares += quantity
         
         self.trade_history.append(
-            {
-                "type": "BUY",
-                "price": price,
-                "quantity": quantity
-            }
+            Trade(
+                "BUY",
+                price,
+                quantity
+            )
         )
         
     def sell(self,
@@ -46,11 +47,11 @@ class BacktestEngine:
         self.shares -= quantity
         
         self.trade_history.append(
-            {
-                "type": "SELL",
-                "price": price,
-                "quantity": quantity
-            }
+            Trade(
+                "SELL",
+                price,
+                quantity
+            )
         )
         
     def portfolio_value(self, 
