@@ -16,14 +16,14 @@ def test_trade_creation():
 def test_trade_type():
     engine = BacktestEngine(10000)
     
-    engine.buy(100, 5)
+    engine.portfolio.buy(100, 5)
     
     assert isinstance(engine.trade_history[0], Trade)
     
 def test_trade_return():
     engine = BacktestEngine(10000)
     
-    engine.buy(100, 5)
+    engine.portfolio.buy(100, 5)
     
     trade = engine.trade_history[0]
     

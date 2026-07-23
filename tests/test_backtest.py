@@ -32,7 +32,7 @@ def test_buy_creates_trade_history():
     engine.portfolio.buy(100, 10)
     
     assert len(engine.portfolio.trade_history) == 1
-    assert engine.portfolio.trade_history[0]["type"] == "BUY"
+    assert engine.portfolio.trade_history[0].trade_type == "BUY"
     
 def test_buy_without_enough_cash():
     engine = BacktestEngine(1000)
@@ -44,7 +44,7 @@ def test_sell_without_enough_shares():
     engine = BacktestEngine(10000)
     
     with pytest.raises(ValueError):
-        engine.portfolio.buy(100, 5)
+        engine.portfolio.sell(100, 5)
         
 def test_sell_creates_trade_history():
     engine = BacktestEngine(10000)
@@ -52,8 +52,8 @@ def test_sell_creates_trade_history():
     engine.portfolio.buy(100, 5)
     engine.portfolio.sell(120, 5)
     
-    assert len(engine.trade_history) == 2
-    assert engine.portfolio.trade_history[1]["type"] == "SELL"
+    assert len(engine.portfolio.trade_history) == 2
+    assert engine.portfolio.trade_history[1].trade_type == "SELL"
     
 def test_portfolio_value_no_action():
     engine = BacktestEngine(10000)
@@ -64,7 +64,7 @@ def test_portfolio_value_with_open_position():
     engine = BacktestEngine(10000)
     
     engine.portfolio.buy(100, 10)
-    assert engine.portfolio_value(120) == 10200
+    assert engine.portfolio.value(120) == 10200
     
 def test_portfolio_value_after_multiple_trades():
     engine = BacktestEngine(10000)
