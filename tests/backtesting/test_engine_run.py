@@ -218,3 +218,13 @@ def test_trade_value():
     )
     
     assert trade.value == 500
+    
+def test_trade_sell():
+    trade = Trade(
+        "SELL",
+        120,
+        10
+    )
+    
+    assert trade.trade_type == "SELL"
+    assert trade.value == 1200
