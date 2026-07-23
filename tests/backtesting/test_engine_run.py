@@ -49,7 +49,7 @@ def test_run_shares():
         "Signal"
     )
     
-    assert engine.shares == 1
+    assert engine.portfolio.shares == 1
     
 def test_run_trade_history():
     data = pd.DataFrame({
@@ -65,7 +65,7 @@ def test_run_trade_history():
         "Signal"
     )
     
-    assert len(engine.trade_history) == 1
+    assert len(engine.portfolio.trade_history) == 1
     
 def test_run_sell_signal():
     data = pd.DataFrame({
@@ -81,7 +81,7 @@ def test_run_sell_signal():
         "Signal"
     )
     
-    assert engine.shares == 0
+    assert engine.portfolio.shares == 0
     
 def test_run_buy_and_sell_history():
     data = pd.DataFrame({
@@ -97,9 +97,9 @@ def test_run_buy_and_sell_history():
         "Signal"
     )
     
-    assert len(engine.trade_history) == 2
-    assert engine.trade_history[0].trade_type == "BUY"
-    assert engine.trade_history[1].trade_type == "SELL"
+    assert len(engine.portfolio.trade_history) == 2
+    assert engine.portfolio.trade_history[0].trade_type == "BUY"
+    assert engine.portfolio.trade_history[1].trade_type == "SELL"
     
 def test_run_portfolio_value_calculation():
     data = pd.DataFrame({

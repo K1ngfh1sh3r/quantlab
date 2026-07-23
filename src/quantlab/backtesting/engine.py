@@ -1,5 +1,5 @@
 import pandas as pd
-from quantlab.backtesting.trade import Trade
+from quantlab.backtesting.portfolio import Portfolio
 
 class BacktestEngine:
     """
@@ -10,54 +10,7 @@ class BacktestEngine:
         self,
         initial_capital: float
     ):
-        self.initial_capital = initial_capital
-        self.cash = initial_capital
-        self.shares = 0
-        self.trade_history = []
-        
-    def buy(self,
-            price: float,
-            quantity: int
-    ) -> None :
-        cost = price * quantity
-        if cost > self.cash:
-            raise ValueError("not enough cash")
-        
-        self.cash -= cost
-        self.shares += quantity
-        
-        self.trade_history.append(
-            Trade(
-                "BUY",
-                price,
-                quantity
-            )
-        )
-        
-    def sell(self,
-            price: float,
-            quantity: int
-    ) -> None :
-        if quantity > self.shares:
-            raise ValueError("Not enough shares")
-        
-        revenue = price * quantity
-        
-        self.cash += revenue
-        self.shares -= quantity
-        
-        self.trade_history.append(
-            Trade(
-                "SELL",
-                price,
-                quantity
-            )
-        )
-        
-    def portfolio_value(self, 
-                        price: float
-        ) -> float:
-        return self.cash + (self.shares * price)
+        self.portfolio = Portfolio(initial_capital)
     
     def run(self,
             data: pd.DataFrame,
@@ -80,9 +33,9 @@ class BacktestEngine:
         Returns:
             DataFrame containing portfolio evolution.
         """
-        self.trade_history = []
-        self.cash = self.initial_capital
-        self.shares = 0
+        self.portfolio = Portfolio(
+            self.portfolio.initial_capital
+        )
         
         if price_column not in data.columns:
             raise KeyError(f"Column {price_column} does not exist")
@@ -102,14 +55,14 @@ class BacktestEngine:
             if signal not in [-1,0,1]:
                 raise ValueError("Invalid signal value")
             
-            if signal == 1 and self.shares == 0:
-                self.buy(price,1)
+            if signal == 1 and self.portfolio.shares == 0:
+                self.portfolio.buy(price,1)
             
-            elif signal == -1 and self.shares > 0:
-                self.sell(price,1)
+            elif signal == -1 and self.portfolio.shares > 0:
+                self.portfolio.sell(price,1)
                 
             portfolio_values.append(
-                self.portfolio_value(price)
+                self.portfolio.value(price)
             )
             
         result["Portfolio_Value"] = portfolio_values
