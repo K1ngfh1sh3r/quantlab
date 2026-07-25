@@ -1,5 +1,6 @@
 import pandas as pd
 from quantlab.backtesting.portfolio import Portfolio
+from quantlab.strategies.base import Strategy
 
 class BacktestEngine:
     """
@@ -14,8 +15,8 @@ class BacktestEngine:
     
     def run(self,
             data: pd.DataFrame,
-            price_column: str,
-            signal_column: str
+            strategy: Strategy,
+            price_column: str
         )-> pd.DataFrame:
         """
         Executes a backtest using trading signals.
@@ -27,8 +28,8 @@ class BacktestEngine:
             price_column:
                 Column containing asset prices.
 
-            signal_column:
-                Column containing trading signals.
+            strategy:
+                Trading strategy used to generate signals.
 
         Returns:
             DataFrame containing portfolio evolution.
@@ -40,17 +41,22 @@ class BacktestEngine:
         if price_column not in data.columns:
             raise KeyError(f"Column {price_column} does not exist")
         
-        if signal_column not in data.columns:
-            raise KeyError(f"Column {signal_column} does not exist")
+        if not isinstance(strategy, Strategy):
+            raise TypeError(
+                "strategy must inherit from Strategy"
+            )
         
         result = data.copy()
         
         portfolio_values = []
+        signals = []
         
         for _, row in result.iterrows():
             
             price = row[price_column]
-            signal = row[signal_column]
+            signal: int = strategy.generate_signal(row)
+            
+            signals.append(signal)
             
             if signal not in [-1,0,1]:
                 raise ValueError("Invalid signal value")
@@ -65,6 +71,7 @@ class BacktestEngine:
                 self.portfolio.value(price)
             )
             
+        result["Signal"] = signals
         result["Portfolio_Value"] = portfolio_values
         
         return result
