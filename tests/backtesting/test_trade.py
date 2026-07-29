@@ -86,3 +86,20 @@ def test_trade_is_sell():
     
     assert trade.is_sell()
     assert not trade.is_buy()
+    
+def test_invalid_trade_type():
+    with pytest.raises(ValueError):
+        Trade(
+            "INVALID",
+            100,
+            1
+        )
+        
+        
+def test_negative_quantity():
+    with pytest.raises(ValueError):
+        Trade(
+            "BUY",
+            100,
+            -1
+        )
