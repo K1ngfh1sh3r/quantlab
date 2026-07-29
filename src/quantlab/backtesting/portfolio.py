@@ -13,8 +13,8 @@ class Portfolio:
         self.trade_history: list[Trade] = []
         
     def value(self, 
-                            price: float
-            ) -> float:
+                price: float
+        ) -> float:
             return self.cash + (self.shares * price)
         
     def buy(self,

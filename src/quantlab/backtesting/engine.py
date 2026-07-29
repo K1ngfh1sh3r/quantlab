@@ -5,6 +5,8 @@ from quantlab.strategies.base import Strategy
 class BacktestEngine:
     """
     Basic backtesting engine.
+    
+    Run a trading strategy on historical market data
     """
     
     def __init__(
@@ -34,7 +36,7 @@ class BacktestEngine:
         Returns:
             DataFrame containing portfolio evolution.
         """
-        self.portfolio = Portfolio(
+        self.portfolio: Portfolio = Portfolio(
             self.portfolio.initial_capital
         )
         
@@ -48,8 +50,8 @@ class BacktestEngine:
         
         result = data.copy()
         
-        portfolio_values = []
-        signals = []
+        portfolio_values: list[float] = []
+        signals: list[int] = []
         
         for _, row in result.iterrows():
             
