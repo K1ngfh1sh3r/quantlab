@@ -1,5 +1,6 @@
 from quantlab.backtesting.engine import BacktestEngine
 from quantlab.strategies.buy_and_hold import BuyAndHoldStrategy
+from quantlab.strategies.base import Strategy
 
 import pandas as pd
 import pytest
@@ -174,3 +175,39 @@ def test_run_portfolio_evolution():
     assert result["Portfolio_Value"].iloc[0] == 10000
     assert result["Portfolio_Value"].iloc[1] == 10020
     assert result["Portfolio_Value"].iloc[2] == 10030
+    
+def test_run_empty_dataframe():
+    
+    data = pd.DataFrame({
+        "Close": []
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    result = engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    assert isinstance(result, pd.DataFrame)
+    assert len(result) == 0
+    
+class BadStrategy(Strategy):
+    
+    def generate_signal(self, row):
+        return 5
+    
+def test_run_invalid_signal():
+    data = pd.DataFrame({
+        "Close": [100]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BadStrategy,
+            "Close"
+        )
