@@ -211,3 +211,54 @@ def test_run_invalid_signal():
             BadStrategy(),
             "Close"
         )
+        
+def test_statistics_returns_dict():
+    data = pd.DataFrame({
+        "Close": [100,120]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    stats = engine.statistics()
+    
+    assert isinstance(stats, dict)
+    
+def test_statistics_profit():
+    data = pd.DataFrame({
+            "Close": [100,120]
+        })
+        
+    engine = BacktestEngine(10000)
+        
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+        
+    stats = engine.statistics()
+    
+    assert stats["profit"] == 20
+    
+def test_statistics_return():
+    data = pd.DataFrame({
+                "Close": [100,120]
+            })
+            
+    engine = BacktestEngine(10000)
+            
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+            
+    stats = engine.statistics()
+    
+    assert stats["return_pct"] == 0.2

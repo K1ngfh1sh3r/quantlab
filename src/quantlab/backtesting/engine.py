@@ -14,6 +14,7 @@ class BacktestEngine:
         initial_capital: float
     ):
         self.portfolio = Portfolio(initial_capital)
+        self.last_price = None
     
     def run(self,
             data: pd.DataFrame,
@@ -56,6 +57,7 @@ class BacktestEngine:
         for _, row in result.iterrows():
             
             price = row[price_column]
+            self.last_price = price
             signal: int = strategy.generate_signal(row)
             
             signals.append(signal)
@@ -73,7 +75,22 @@ class BacktestEngine:
                 self.portfolio.value(price)
             )
             
+            
         result["Signal"] = signals
         result["Portfolio_Value"] = portfolio_values
         
         return result
+    
+    def statistics(self):
+        if self.last_price is None:
+            raise ValueError("No backtest as been run yet")
+        
+        portfolio_value = self.portfolio.value(self.last_price)
+        profit = portfolio_value- self.portfolio.initial_capital
+        
+        return {
+            "initial_capital": self.portfolio.initial_capital,
+            "final_value": portfolio_value,
+            "profit": profit,
+            "return_pct": (profit / self.portfolio.initial_capital) * 100
+        }
