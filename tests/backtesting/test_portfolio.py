@@ -90,8 +90,16 @@ def test_buy_not_enough_cash():
         portfolio.buy(101, 1)
 
 
-def test_sell_not_enough_shares():
+def test_sell_without_position():
     portfolio = Portfolio(10000)
 
     with pytest.raises(ValueError):
         portfolio.sell(100, 1)
+        
+def test_buy_all_cash():
+    portfolio = Portfolio(10000)
+    
+    portfolio.buy(100,100)
+    
+    assert portfolio.cash == 0
+    assert portfolio.shares == 100
