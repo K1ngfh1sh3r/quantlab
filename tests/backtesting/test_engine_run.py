@@ -208,6 +208,6 @@ def test_run_invalid_signal():
     with pytest.raises(ValueError):
         engine.run(
             data,
-            BadStrategy,
+            BadStrategy(),
             "Close"
         )
