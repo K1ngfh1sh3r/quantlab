@@ -262,3 +262,20 @@ def test_statistics_return():
     stats = engine.statistics()
     
     assert stats["return_pct"] == 0.2
+    
+def test_statistics_final_value():
+    data = pd.DataFrame({
+                    "Close": [100,120]
+                })
+                
+    engine = BacktestEngine(10000)
+                
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+                
+    stats = engine.statistics()
+    
+    assert stats["final_value"] == 10020

@@ -41,6 +41,8 @@ class BacktestEngine:
             self.portfolio.initial_capital
         )
         
+        self.last_price = None
+        
         if price_column not in data.columns:
             raise KeyError(f"Column {price_column} does not exist")
         
@@ -81,7 +83,7 @@ class BacktestEngine:
         
         return result
     
-    def statistics(self):
+    def statistics(self) -> dict[str:float]:
         if self.last_price is None:
             raise ValueError("No backtest as been run yet")
         
