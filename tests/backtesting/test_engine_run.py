@@ -295,4 +295,49 @@ def test_run_quantity_buy():
     )
     
     assert engine.portfolio.shares == 5
+
+def test_run_quantity_cash():
+    data = pd.DataFrame({
+                "Close": [100,120]
+            })
+        
+    engine = BacktestEngine(10000)
+        
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close",
+        quantity=5
+    )
     
+    assert engine.portfolio.cash == 9500
+    
+def test_run_quantity_zero():
+    data = pd.DataFrame({
+                "Close": [100,120]
+            })
+            
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close",
+            quantity=0
+        )
+        
+def test_run_quantity_negative():
+    data = pd.DataFrame({
+                    "Close": [100,120]
+                })
+                
+    engine = BacktestEngine(10000)
+        
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close",
+            quantity=-1
+        )
