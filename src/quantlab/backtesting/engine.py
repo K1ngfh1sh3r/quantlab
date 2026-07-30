@@ -20,7 +20,8 @@ class BacktestEngine:
             data: pd.DataFrame,
             strategy: Strategy,
             price_column: str,
-            quantity: int = 1
+            quantity: int = 1,
+            commission: float = 1.5
         )-> pd.DataFrame:
         """
         Executes a backtest using trading signals.
@@ -37,6 +38,9 @@ class BacktestEngine:
                 
             quantity:
                 Number of shares traded for each buy or sell signal.
+                
+            commission:
+                Transaction fee applied for each buy or sell operation.
 
         Returns:
             DataFrame containing portfolio evolution.
@@ -58,6 +62,9 @@ class BacktestEngine:
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
         
+        if commission < 0:
+            raise ValueError("Commission must be non-negative")
+        
         result = data.copy()
         
         portfolio_values: list[float] = []
@@ -75,10 +82,10 @@ class BacktestEngine:
                 raise ValueError("Invalid signal value")
             
             if signal == 1 and self.portfolio.shares == 0:
-                self.portfolio.buy(price,quantity)
+                self.portfolio.buy(price,quantity,commission)
             
             elif signal == -1 and self.portfolio.shares > 0:
-                self.portfolio.sell(price,quantity)
+                self.portfolio.sell(price,quantity,commission)
                 
             portfolio_values.append(
                 self.portfolio.value(price)

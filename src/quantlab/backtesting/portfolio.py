@@ -19,9 +19,17 @@ class Portfolio:
         
     def buy(self,
                 price: float,
-                quantity: int
+                quantity: int,
+                commission: float = 1.50
+                
         ) -> None :
-            cost = price * quantity
+            if quantity <= 0:
+                raise ValueError("Quantity must be positive")
+        
+            if commission < 0:
+                raise ValueError("Commission must be non-negative")
+            
+            cost = (price * quantity) + commission
             if cost > self.cash:
                 raise ValueError("not enough cash")
             
@@ -38,14 +46,21 @@ class Portfolio:
             
     def sell(self,
                 price: float,
-                quantity: int
+                quantity: int,
+                commission: float = 1.50
         ) -> None :
+            if quantity <= 0:
+                raise ValueError("Quantity must be positive")
+            
             if quantity > self.shares:
                 raise ValueError("Not enough shares")
+            
+            if commission < 0:
+                raise ValueError("Commission must be non-negative")
                 
             revenue = price * quantity
                 
-            self.cash += revenue
+            self.cash += revenue - commission
             self.shares -= quantity
                 
             self.trade_history.append(

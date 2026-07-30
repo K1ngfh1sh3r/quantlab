@@ -123,7 +123,7 @@ def test_run_portfolio_value_calculation():
         "Close"
     )
 
-    assert result["Portfolio_Value"].iloc[-1] == 10020
+    assert result["Portfolio_Value"].iloc[-1] == 10018.5
 
 
 def test_run_invalid_price_column():
@@ -172,9 +172,9 @@ def test_run_portfolio_evolution():
         "Close"
     )
 
-    assert result["Portfolio_Value"].iloc[0] == 10000
-    assert result["Portfolio_Value"].iloc[1] == 10020
-    assert result["Portfolio_Value"].iloc[2] == 10030
+    assert result["Portfolio_Value"].iloc[0] == 9998.5
+    assert result["Portfolio_Value"].iloc[1] == 10018.5
+    assert result["Portfolio_Value"].iloc[2] == 10028.5
     
 def test_run_empty_dataframe():
     
@@ -244,7 +244,7 @@ def test_statistics_profit():
         
     stats = engine.statistics()
     
-    assert stats["profit"] == 20
+    assert stats["profit"] == 18.5
     
 def test_statistics_return():
     data = pd.DataFrame({
@@ -261,7 +261,7 @@ def test_statistics_return():
             
     stats = engine.statistics()
     
-    assert stats["return_pct"] == 0.2
+    assert stats["return_pct"] == 0.185
     
 def test_statistics_final_value():
     data = pd.DataFrame({
@@ -278,7 +278,7 @@ def test_statistics_final_value():
                 
     stats = engine.statistics()
     
-    assert stats["final_value"] == 10020
+    assert stats["final_value"] == 10018.5
     
 def test_run_quantity_buy():    
     data = pd.DataFrame({
@@ -310,7 +310,7 @@ def test_run_quantity_cash():
         quantity=5
     )
     
-    assert engine.portfolio.cash == 9500
+    assert engine.portfolio.cash == 9498.5
     
 def test_run_quantity_zero():
     data = pd.DataFrame({
@@ -340,4 +340,52 @@ def test_run_quantity_negative():
             BuyAndHoldStrategy(),
             "Close",
             quantity=-1
+        )
+        
+def test_run_commission_buy():
+    data = pd.DataFrame({
+            "Close": [100,120]
+        })
+                    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close",
+        commission=10
+    )
+    
+    assert engine.portfolio.cash == 9890
+    
+def test_run_negative_quantity():
+    data = pd.DataFrame({
+            "Close": [100]
+        })
+                    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close",
+            quantity=-1
+        )
+
+def test_run_negative_commission():
+    data = pd.DataFrame({
+        "Close": [100]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close",
+            commission=-1
         )

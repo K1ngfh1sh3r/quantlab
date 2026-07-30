@@ -14,7 +14,7 @@ def test_buy():
     
     engine.portfolio.buy(100, 10)
     
-    assert engine.portfolio.cash == 9000
+    assert engine.portfolio.cash == 8998.5
     assert engine.portfolio.shares == 10
     
 def test_sell():
@@ -23,7 +23,7 @@ def test_sell():
     engine.portfolio.buy(100, 10)
     engine.portfolio.sell(120, 5)
     
-    assert engine.portfolio.cash == 9600
+    assert engine.portfolio.cash == 9597
     assert engine.portfolio.shares == 5
     
 def test_buy_creates_trade_history():
@@ -64,7 +64,7 @@ def test_portfolio_value_with_open_position():
     engine = BacktestEngine(10000)
     
     engine.portfolio.buy(100, 10)
-    assert engine.portfolio.value(120) == 10200
+    assert engine.portfolio.value(120) == 10198.5
     
 def test_portfolio_value_after_multiple_trades():
     engine = BacktestEngine(10000)
@@ -72,4 +72,4 @@ def test_portfolio_value_after_multiple_trades():
     engine.portfolio.buy(100, 10)
     engine.portfolio.sell(120, 5)
     
-    assert engine.portfolio.value(110) == 10150
+    assert engine.portfolio.value(110) == 10147

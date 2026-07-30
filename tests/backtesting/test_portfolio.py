@@ -28,7 +28,7 @@ def test_buy_updates_cash():
     
     portfolio.buy(100,5)
     
-    assert portfolio.cash == 9500
+    assert portfolio.cash == 9498.5
     
 def test_buy_updates_shares():
     portfolio = Portfolio(10000)
@@ -43,7 +43,7 @@ def test_sell_updates_cash():
     portfolio.buy(100,5)
     portfolio.sell(120,2)
     
-    assert portfolio.cash == 9740
+    assert portfolio.cash == 9737
     
 def test_sell_updates_shares():
     portfolio = Portfolio(10000)
@@ -60,7 +60,7 @@ def test_sell_all_shares():
     portfolio.sell(120, 5)
 
     assert portfolio.shares == 0
-    assert portfolio.cash == 10100
+    assert portfolio.cash == 10097
     
 def test_buy_adds_trade():
     portfolio = Portfolio(10000)
@@ -99,7 +99,7 @@ def test_sell_without_position():
 def test_buy_all_cash():
     portfolio = Portfolio(10000)
     
-    portfolio.buy(100,100)
+    portfolio.buy(100,99)
     
-    assert portfolio.cash == 0
-    assert portfolio.shares == 100
+    assert portfolio.cash == 98.5
+    assert portfolio.shares == 99
