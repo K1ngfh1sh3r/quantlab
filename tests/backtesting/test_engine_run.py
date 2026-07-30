@@ -289,9 +289,10 @@ def test_run_quantity_buy():
     
     engine.run(
         data,
-        BuyAndHoldStrategy,
+        BuyAndHoldStrategy(),
         "Close",
         quantity=5
     )
     
     assert engine.portfolio.shares == 5
+    
