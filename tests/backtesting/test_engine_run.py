@@ -279,3 +279,19 @@ def test_statistics_final_value():
     stats = engine.statistics()
     
     assert stats["final_value"] == 10020
+    
+def test_run_quantity_buy():    
+    data = pd.DataFrame({
+            "Close": [100,120]
+        })
+    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy,
+        "Close",
+        quantity=5
+    )
+    
+    assert engine.portfolio.shares == 5
