@@ -19,7 +19,8 @@ class BacktestEngine:
     def run(self,
             data: pd.DataFrame,
             strategy: Strategy,
-            price_column: str
+            price_column: str,
+            quantity: int = 1
         )-> pd.DataFrame:
         """
         Executes a backtest using trading signals.
@@ -33,6 +34,9 @@ class BacktestEngine:
 
             strategy:
                 Trading strategy used to generate signals.
+                
+            quantity:
+                Number of shares traded for each buy or sell signal.
 
         Returns:
             DataFrame containing portfolio evolution.
@@ -50,6 +54,9 @@ class BacktestEngine:
             raise TypeError(
                 "strategy must inherit from Strategy"
             )
+            
+        if quantity <= 0:
+            raise ValueError("Quantity must be positive")
         
         result = data.copy()
         
@@ -68,10 +75,10 @@ class BacktestEngine:
                 raise ValueError("Invalid signal value")
             
             if signal == 1 and self.portfolio.shares == 0:
-                self.portfolio.buy(price,1)
+                self.portfolio.buy(price,quantity)
             
             elif signal == -1 and self.portfolio.shares > 0:
-                self.portfolio.sell(price,1)
+                self.portfolio.sell(price,quantity)
                 
             portfolio_values.append(
                 self.portfolio.value(price)
@@ -83,7 +90,7 @@ class BacktestEngine:
         
         return result
     
-    def statistics(self) -> dict[str:float]:
+    def statistics(self) -> dict[str, float]:
         if self.last_price is None:
             raise ValueError("No backtest as been run yet")
         
