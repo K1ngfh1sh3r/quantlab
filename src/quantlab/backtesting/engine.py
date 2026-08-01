@@ -15,6 +15,7 @@ class BacktestEngine:
     ):
         self.portfolio = Portfolio(initial_capital)
         self.last_price = None
+        self.results = None
     
     def run(self,
             data: pd.DataFrame,
@@ -95,6 +96,7 @@ class BacktestEngine:
         result["Signal"] = signals
         result["Portfolio_Value"] = portfolio_values
         
+        self.results = result
         return result
     
     def statistics(self) -> dict[str, float]:
@@ -110,3 +112,9 @@ class BacktestEngine:
             "profit": profit,
             "return_pct": (profit / self.portfolio.initial_capital) * 100
         }
+    
+    def export_csv(self, filename: str) -> None:
+        if self.results is None:
+            raise ValueError("No backtest has been run yet")
+        
+        self.results.to_csv(filename, index=True)
