@@ -389,3 +389,50 @@ def test_run_negative_commission():
             "Close",
             commission=-1
         )
+        
+def test_export_csv_creates_file(tmp_path):
+    data = pd.DataFrame({
+        "Close": [100, 120]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    filename = tmp_path / "results.csv"
+    
+    engine.export_csv(filename)
+    
+    assert filename.exists()
+    
+def test_export_csv_without_run():
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.export_csv("results.csv")
+        
+def test_export_csv_contains_columns(tmp_path):
+    data = pd.DataFrame({
+        "Close": [100, 120]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    filename = tmp_path / "results.csv"
+    
+    engine.export_csv(filename)
+    
+    exported = pd.read_csv(filename)
+    
+    assert "Signal" in exported.columns
+    assert "Portfolio_Value" in exported.columns 
