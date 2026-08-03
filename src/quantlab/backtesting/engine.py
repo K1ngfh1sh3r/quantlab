@@ -100,6 +100,10 @@ class BacktestEngine:
         return result
     
     def statistics(self) -> dict[str, float]:
+        """
+        return_pct:
+            Percentage return of the portfolio.
+        """
         if self.last_price is None:
             raise ValueError("No backtest as been run yet")
         
