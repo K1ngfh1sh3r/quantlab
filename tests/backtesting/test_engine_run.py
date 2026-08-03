@@ -436,3 +436,22 @@ def test_export_csv_contains_columns(tmp_path):
     
     assert "Signal" in exported.columns
     assert "Portfolio_Value" in exported.columns 
+    
+def test_export_csv_rows():
+    data = pd.DataFrame({
+            "Close": [100, 120, 130]
+        })
+        
+    engine = BacktestEngine(10000)
+        
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    engine.export_csv("test.csv")
+    
+    exported = pd.read_csv("test.csv")
+    
+    assert len(exported) == 3
