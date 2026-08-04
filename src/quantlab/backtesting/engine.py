@@ -66,7 +66,12 @@ class BacktestEngine:
         if commission < 0:
             raise ValueError("Commission must be non-negative")
         
-        result = data.copy()
+        prepare_data = getattr(strategy, "prepare_data", None)
+        
+        if callable(prepare_data):
+            result = prepare_data(data, price_column)
+        else:
+            result = data.copy()
         
         portfolio_values: list[float] = []
         signals: list[int] = []
