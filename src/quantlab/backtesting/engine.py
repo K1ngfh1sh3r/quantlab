@@ -1,6 +1,8 @@
 import pandas as pd
 from quantlab.backtesting.portfolio import Portfolio
 from quantlab.strategies.base import Strategy
+from quantlab.analytics.utils import calculate_returns
+from quantlab.analytics.metrics import (total_return,max_drawdown,volatility)
 
 class BacktestEngine:
     """
@@ -106,21 +108,43 @@ class BacktestEngine:
     
     def statistics(self) -> dict[str, float]:
         """
-        return_pct:
-            Percentage return of the portfolio.
+        Calculate backtest performance statistics.
+
+        Returns:
+                Dictionary containing:
+                - initial_capital
+                - final_value
+                - profit
+                - return_pct
+                - max_drawdown
+                - volatility
         """
         if self.last_price is None:
             raise ValueError("No backtest as been run yet")
         
+        if self.results is None:
+            raise ValueError("No backtest has been run yet")
+        
         portfolio_value = self.portfolio.value(self.last_price)
         profit = portfolio_value- self.portfolio.initial_capital
         
+        returns = calculate_returns(self.results["Portfolio_Value"])
+        
         return {
-            "initial_capital": self.portfolio.initial_capital,
-            "final_value": portfolio_value,
-            "profit": profit,
-            "return_pct": (profit / self.portfolio.initial_capital) * 100
-        }
+    "initial_capital": self.portfolio.initial_capital,
+    "final_value": portfolio_value,
+    "profit": profit,
+    "return_pct": total_return(
+        self.portfolio.initial_capital,
+        portfolio_value
+    ),
+    "max_drawdown": max_drawdown(
+        self.results["Portfolio_Value"]
+    ),
+    "volatility": volatility(
+        returns.dropna()
+    )
+}
     
     def export_csv(self, filename: str) -> None:
         if self.results is None:
