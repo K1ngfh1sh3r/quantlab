@@ -1,207 +1,309 @@
 # QuantLab Development Log
 
-## Jour 4
+## Day 4
 
-### Objectifs
+### Goals
 
-- Créer le module des indicateurs techniques.
-- Implémenter la première moyenne mobile.
-- Ajouter les tests associés.
+- Create the technical indicators module.
+- Implement the first moving average.
+- Add the corresponding unit tests.
 
-## Jour 5 :
-- Ajout de l'indicateur EMA
-- Implémentation SMA/EMA avec validation des paramètres
-- Ajout de 12+ tests unitaires pytest
-- Utilisation de pandas ewm() pour le calcul exponentiel
+### Achievements
 
-## Jour 6
+- Created the indicators module.
+- Implemented the Simple Moving Average (SMA).
+- Added unit tests for the SMA indicator.
 
-### Objectifs
+---
 
-- Finaliser le module des indicateurs techniques.
-- Ajouter des indicateurs supplémentaires.
-- Renforcer la couverture de tests.
+## Day 5
 
-### Réalisations
+### Goals
 
-- Ajout de nouveaux indicateurs techniques.
-- Validation des paramètres d'entrée.
-- Ajout de tests unitaires supplémentaires avec pytest.
-- Amélioration de la structure du module indicators.
+- Add an Exponential Moving Average indicator.
+- Improve indicator validation.
+- Increase test coverage.
 
+### Achievements
 
-## Jour 7
+- Added the Exponential Moving Average (EMA).
+- Implemented parameter validation for SMA and EMA.
+- Added more than 12 unit tests with pytest.
+- Used pandas `ewm()` for EMA calculation.
 
-### Objectifs
+---
 
-- Préparer la base du moteur de backtesting.
-- Concevoir les premiers composants nécessaires.
+## Day 6
 
-### Réalisations
+### Goals
 
-- Création du module backtesting.
-- Mise en place de la structure Portfolio / Trade.
-- Définition des premières interactions entre portefeuille et moteur.
-- Préparation des tests associés.
+- Finalize the technical indicators module.
+- Add additional indicators.
+- Improve test coverage.
 
+### Achievements
 
-## Jour 8
+- Added new technical indicators.
+- Improved input validation.
+- Added additional pytest unit tests.
+- Improved the overall indicators module structure.
 
-### Objectifs
+---
 
-- Implémenter la gestion des transactions.
-- Ajouter la représentation des opérations financières.
+## Day 7
 
-### Réalisations
+### Goals
 
-- Création de la classe Trade.
-- Gestion des opérations BUY et SELL.
-- Ajout des validations :
-  - type de transaction valide ;
-  - quantité positive.
-- Ajout des tests unitaires.
+- Prepare the foundation of the backtesting engine.
+- Design the core backtesting components.
 
+### Achievements
 
-## Jour 9
+- Created the backtesting module.
+- Implemented the initial Portfolio and Trade structure.
+- Defined the first interactions between portfolio and engine.
+- Prepared the associated unit tests.
 
-### Objectifs
+---
 
-- Développer la gestion du portefeuille.
-- Permettre le suivi d'une position.
+## Day 8
 
-### Réalisations
+### Goals
 
-- Implémentation de la classe Portfolio.
-- Gestion :
-  - du capital initial ;
-  - du cash disponible ;
-  - des actions détenues ;
-  - de l'historique des transactions.
-- Ajout du calcul de valeur du portefeuille.
-- Ajout des tests associés.
+- Implement transaction management.
+- Represent financial operations.
 
+### Achievements
 
-## Jour 10
+- Created the `Trade` class.
+- Implemented BUY and SELL operations.
+- Added validation for:
+  - valid transaction types;
+  - positive quantities.
+- Added unit tests.
 
-### Objectifs
+---
 
-- Créer le moteur principal de backtesting.
-- Connecter stratégies et portefeuille.
+## Day 9
 
-### Réalisations
+### Goals
 
-- Création de BacktestEngine.
-- Exécution d'une stratégie sur des données historiques.
-- Génération des signaux BUY/HOLD/SELL.
-- Suivi de l'évolution du portefeuille.
-- Ajout des premiers tests du moteur.
+- Develop portfolio management.
+- Track portfolio positions.
 
+### Achievements
 
-## Jour 11
+- Implemented the `Portfolio` class.
+- Added management of:
+  - initial capital;
+  - available cash;
+  - owned shares;
+  - trade history.
+- Added portfolio valuation.
+- Added unit tests.
 
-### Objectifs
+---
 
-- Améliorer la robustesse du moteur.
-- Ajouter des validations.
+## Day 10
 
-### Réalisations
+### Goals
 
-- Ajout des contrôles :
-  - colonne de prix inexistante ;
-  - stratégie invalide ;
-  - signal incorrect.
-- Gestion des erreurs avec exceptions adaptées.
-- Augmentation de la couverture de tests.
+- Create the main backtesting engine.
+- Connect strategies with the portfolio.
 
+### Achievements
 
-## Jour 12
+- Created the `BacktestEngine`.
+- Executed trading strategies on historical market data.
+- Generated BUY / HOLD / SELL signals.
+- Tracked portfolio value over time.
+- Added the first engine tests.
 
-### Objectifs
+---
 
-- Finaliser la première version du moteur de backtesting.
-- Stabiliser l'architecture.
+## Day 11
 
-### Réalisations
+### Goals
 
-- Validation complète du workflow :
-  - données historiques ;
-  - stratégie ;
-  - exécution ;
-  - portefeuille ;
-  - résultats.
-- Architecture stabilisée.
-- Validation avec pytest et Ruff.
+- Improve engine robustness.
+- Add input validation.
 
+### Achievements
 
-## Jour 13
+- Added validation for:
+  - missing price columns;
+  - invalid strategies;
+  - invalid trading signals.
+- Improved exception handling.
+- Increased test coverage.
 
-### Objectifs
+---
 
-- Améliorer la qualité du moteur.
-- Ajouter des fonctionnalités d'analyse.
+## Day 12
 
-### Réalisations
+### Goals
 
-- Ajout du calcul des statistiques de backtest :
-  - valeur finale ;
-  - profit ;
-  - rendement en pourcentage.
-- Ajout de la gestion du dernier prix utilisé.
-- Ajout des tests associés.
+- Finalize the first version of the backtesting engine.
+- Stabilize the architecture.
 
+### Achievements
 
-## Jour 14
+- Validated the complete workflow:
+  - historical market data;
+  - trading strategy;
+  - execution;
+  - portfolio management;
+  - backtest results.
+- Stabilized the engine architecture.
+- Validated everything with pytest and Ruff.
 
-### Objectifs
+---
 
-- Ajouter la gestion des quantités de positions.
-- Améliorer la flexibilité du backtesting.
+## Day 13
 
-### Réalisations
+### Goals
 
-- Ajout du paramètre quantity dans BacktestEngine.
-- Support de plusieurs actions par transaction.
-- Validation des quantités positives.
-- Ajout des tests :
-  - achat avec quantité personnalisée ;
-  - évolution du portefeuille ;
-  - validation des erreurs.
-- Tous les tests passent avec pytest.
+- Improve engine quality.
+- Add performance statistics.
 
+### Achievements
 
-## Jour 15
+- Added portfolio statistics:
+  - final portfolio value;
+  - total profit;
+  - percentage return.
+- Added last traded price tracking.
+- Added unit tests.
 
-### Objectifs
+---
 
-- Ajouter la gestion des frais de transaction.
-- Rendre les simulations plus réalistes.
+## Day 14
 
-### Réalisations
+### Goals
 
-- Ajout du système de commission sur les transactions.
-- Gestion des frais lors des achats et ventes.
-- Validation des commissions positives.
-- Mise à jour des tests existants.
-- Correction des attentes liées aux frais.
-- Validation complète avec pytest.
+- Add configurable trade quantities.
+- Improve backtesting flexibility.
 
+### Achievements
 
-## Jour 16
+- Added the `quantity` parameter to `BacktestEngine`.
+- Supported multiple shares per transaction.
+- Added quantity validation.
+- Added unit tests covering:
+  - custom quantities;
+  - portfolio evolution;
+  - invalid quantities.
+- All tests passed with pytest.
 
-### Objectifs
+---
 
-- Ajouter une fonctionnalité d'export des résultats.
-- Faciliter l'utilisation des résultats de backtest.
+## Day 15
 
-### Réalisations
+### Goals
 
-- Ajout de la sauvegarde du dernier résultat de backtest.
-- Ajout de la méthode export_csv().
-- Export des résultats contenant :
-  - les signaux ;
-  - l'évolution de la valeur du portefeuille.
-- Ajout des tests :
-  - création du fichier CSV ;
-  - erreur sans backtest préalable ;
-  - vérification du contenu exporté.
-- Validation avec pytest et Ruff.
+- Add transaction commissions.
+- Improve simulation realism.
+
+### Achievements
+
+- Implemented transaction commissions.
+- Applied commissions to BUY and SELL operations.
+- Added commission validation.
+- Updated existing tests.
+- Adjusted expected portfolio values.
+- All tests passed with pytest.
+
+---
+
+## Day 16
+
+### Goals
+
+- Export backtest results.
+- Improve result usability.
+
+### Achievements
+
+- Stored the latest backtest results.
+- Added the `export_csv()` method.
+- Exported:
+  - trading signals;
+  - portfolio value evolution.
+- Added unit tests for:
+  - CSV generation;
+  - exporting without a previous backtest;
+  - exported file contents.
+- Validated with pytest and Ruff.
+
+---
+
+## Day 17
+
+### Goals
+
+- Implement the first trading strategy.
+- Connect strategies with technical indicators.
+
+### Achievements
+
+- Created the `Strategy` base class.
+- Implemented the `MovingAverageStrategy`.
+- Added SMA crossover signal generation.
+- Added data preparation through `prepare_data()`.
+- Added comprehensive unit tests.
+- Validated with pytest and Ruff.
+
+---
+
+## Day 18
+
+### Goals
+
+- Improve the backtesting engine.
+- Introduce portfolio performance reporting.
+
+### Achievements
+
+- Refactored the engine workflow.
+- Added portfolio performance statistics.
+- Improved strategy preparation handling.
+- Added extensive unit tests.
+- Validated with pytest and Ruff.
+
+---
+
+## Day 19
+
+### Goals
+
+- Create the analytics module.
+- Implement portfolio performance metrics.
+
+### Achievements
+
+- Created the `analytics` package.
+- Implemented:
+  - `total_return()`;
+  - `max_drawdown()`;
+  - `volatility()`.
+- Added comprehensive unit tests.
+- Validated with pytest and Ruff.
+
+---
+
+## Day 20
+
+### Goals
+
+- Integrate analytics into the backtesting engine.
+- Introduce reporting capabilities.
+
+### Achievements
+
+- Added `calculate_returns()`.
+- Integrated analytics metrics into `BacktestEngine.statistics()`.
+- Added `BacktestEngine.report()`.
+- Implemented the `BacktestReport` class.
+- Added the `summary()` method.
+- Added unit and integration tests.
+- Validated with pytest, Ruff and GitHub Actions.
