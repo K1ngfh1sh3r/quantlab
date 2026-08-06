@@ -1,6 +1,7 @@
 import pandas as pd
 from quantlab.backtesting.portfolio import Portfolio
 from quantlab.strategies.base import Strategy
+from quantlab.analytics.report import BacktestReport
 from quantlab.analytics.utils import calculate_returns
 from quantlab.analytics.metrics import (total_return,max_drawdown,volatility)
 
@@ -144,10 +145,19 @@ class BacktestEngine:
     "volatility": volatility(
         returns.dropna()
     )
-}
+    }
     
     def export_csv(self, filename: str) -> None:
         if self.results is None:
             raise ValueError("No backtest has been run yet")
         
         self.results.to_csv(filename, index=True)
+        
+    def report(self) -> BacktestReport:
+        """
+        Generate a backtest analytics report.
+
+        Returns:
+            BacktestReport containing performance metrics.
+        """
+        return BacktestReport(self.statistics())
