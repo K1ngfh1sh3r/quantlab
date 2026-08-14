@@ -307,3 +307,26 @@
 - Added the `summary()` method.
 - Added unit and integration tests.
 - Validated with pytest, Ruff and GitHub Actions.
+
+---
+
+## Day 21
+
+### Goals
+
+- Add the first backtest visualization.
+- Introduce equity curve visualization.
+- Integrate visualization into backtest reports.
+
+### Achievements
+
+- Created the `visualization` package.
+- Implemented `plot_equity_curve()`.
+- Added validation for empty portfolio value series.
+- Added unit tests for equity curve generation and plotted data.
+- Extended `BacktestReport` to store backtest results.
+- Added `BacktestReport.plot_equity_curve()`.
+- Integrated equity curve visualization with backtest reports.
+- Added integration tests.
+- All 172 tests passed with pytest.
+- Ruff validation passed successfully.
