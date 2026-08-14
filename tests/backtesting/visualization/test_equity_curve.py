@@ -1,7 +1,8 @@
-from quantlab.visualization.equity_curve import plot_equity_curve
 import matplotlib.pyplot as plt
 import pandas as pd
 import pytest
+
+from quantlab.visualization.equity_curve import plot_equity_curve
 
 def test_plot_equity_curve_with_valid_data(monkeypatch):
     portfolio_value = pd.Series([

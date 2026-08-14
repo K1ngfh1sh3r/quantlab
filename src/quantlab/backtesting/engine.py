@@ -1,9 +1,10 @@
 import pandas as pd
-from quantlab.backtesting.portfolio import Portfolio
-from quantlab.strategies.base import Strategy
+
+from quantlab.analytics.metrics import max_drawdown, total_return, volatility
 from quantlab.analytics.report import BacktestReport
 from quantlab.analytics.utils import calculate_returns
-from quantlab.analytics.metrics import (total_return,max_drawdown,volatility)
+from quantlab.backtesting.portfolio import Portfolio
+from quantlab.strategies.base import Strategy
 
 class BacktestEngine:
     """
