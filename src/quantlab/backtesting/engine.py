@@ -155,9 +155,12 @@ class BacktestEngine:
         
     def report(self) -> BacktestReport:
         """
-        Generate a backtest analytics report.
-
-        Returns:
-            BacktestReport containing performance metrics.
+        Create a report from the latest backtest.
         """
-        return BacktestReport(self.statistics())
+        if self.results is None:
+            raise ValueError("No backtest has been run yet")
+        
+        return BacktestReport(
+            self.statistics(),
+            self.results
+        )

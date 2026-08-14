@@ -1,4 +1,8 @@
+from quantlab.backtesting.engine import BacktestEngine
 from quantlab.analytics.report import BacktestReport
+from quantlab.strategies.buy_and_hold import BuyAndHoldStrategy
+
+import pandas as pd
 import pytest
 
 def test_report_creation():
@@ -69,3 +73,53 @@ def test_summary_contains_metrics():
     assert "Return" in summary
     assert "Max Drawdown" in summary
     assert "Volatility" in summary
+    
+def test_report_plot_equity_curve(monkeypatch):
+    data = pd.DataFrame({
+        "Close": [100, 120, 110]
+    })
+
+    engine = BacktestEngine(10000)
+
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+
+    report = engine.report()
+
+    monkeypatch.setattr("matplotlib.pyplot.show", lambda: None)
+
+    result = report.plot_equity_curve()
+
+    assert result is None
+
+def test_report_plot_equity_curve_without_results():
+    stats = {
+        "return_pct": 10,
+        "volatility": 2
+    }
+
+    report = BacktestReport(stats)
+
+    with pytest.raises(ValueError):
+        report.plot_equity_curve()
+
+def test_report_contains_results():
+    data = pd.DataFrame({
+        "Close": [100, 120, 110]
+    })
+
+    engine = BacktestEngine(10000)
+
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+
+    report = engine.report()
+
+    assert report.results is not None
+    assert "Portfolio_Value" in report.results.columns
