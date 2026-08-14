@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 class Trade:
     """
     Represents a single executed trade.
@@ -15,7 +17,7 @@ class Trade:
         quantity:
             Number of shares traded.
     """
-    VALID_TYPES = ["BUY","SELL"]
+    VALID_TYPES: ClassVar[list[str]] = ["BUY", "SELL"]
     
     def __init__(self,
                 trade_type: str,
