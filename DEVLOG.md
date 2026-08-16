@@ -330,3 +330,30 @@
 - Added integration tests.
 - All 172 tests passed with pytest.
 - Ruff validation passed successfully.
+
+---
+
+## Day 22
+
+### Objectives
+
+- Improve the backtest reporting system.
+- Add additional performance visualizations.
+- Integrate visualizations into `BacktestReport`.
+- Strengthen test coverage for reporting and visualization features.
+
+### Achievements
+
+- Added a portfolio drawdown visualization using Matplotlib.
+- Added `plot_drawdown()` to the visualization module.
+- Integrated drawdown visualization into `BacktestReport`.
+- Added a unified `plot()` method to generate the available backtest visualizations.
+- Added `available_plots()` to expose supported report visualizations.
+- Added integration tests for:
+  - drawdown plotting;
+  - available visualizations;
+  - combined report plotting.
+- Verified that the equity curve and drawdown visualizations are correctly triggered by the report.
+- Improved import formatting and code consistency with Ruff.
+- Full test suite passes with pytest.
+- Ruff checks pass successfully.
