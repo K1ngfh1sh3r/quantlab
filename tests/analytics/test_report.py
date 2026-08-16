@@ -123,3 +123,72 @@ def test_report_contains_results():
 
     assert report.results is not None
     assert "Portfolio_Value" in report.results.columns
+
+def test_report_plot_drawdown(monkeypatch):
+    data = pd.DataFrame({
+        "Close": [100, 120, 90]
+    }) 
+    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    report = engine.report()
+    
+    monkeypatch.setattr("matplotlib.pyplot.show", lambda: None)
+    
+    result = report.plot_drawdown()
+    
+    assert result is None
+    
+def test_report_available_plots():
+    stats = {
+        "return_pct": 10,
+        "volatility": 2
+    }
+    
+    report = BacktestReport(stats)
+    
+    assert report.available_plots() == [
+        "equity_curve",
+        "drawdown"
+    ]
+    
+def test_report_plot(monkeypatch):
+    data = pd.DataFrame({
+        "Close": [100, 120, 90]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    report = engine.report()
+    
+    equity_called = False
+    drawdown_called = False
+    
+    def mock_equity_curve(_):
+        nonlocal equity_called
+        equity_called = True
+        
+    def mock_drawdown(_):
+        nonlocal drawdown_called
+        drawdown_called = True
+        
+    monkeypatch.setattr("quantlab.analytics.report.plot_equity_curve", mock_equity_curve)
+    monkeypatch.setattr("quantlab.analytics.report.plot_drawdown", mock_drawdown)
+    
+    result = report.plot()
+    
+    assert result is None
+    assert equity_called
+    assert drawdown_called

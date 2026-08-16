@@ -1,6 +1,6 @@
 import pandas as pd
-
 from quantlab.visualization.equity_curve import plot_equity_curve
+from quantlab.visualization.drawdown import plot_drawdown
 
 
 class BacktestReport:
@@ -49,3 +49,32 @@ class BacktestReport:
             raise KeyError("Portfolio_Value column does not exist")
 
         plot_equity_curve(self.results["Portfolio_Value"])
+        
+    def plot(self) -> None:
+        """
+        Plot the available backtest visualizations
+        """
+        self.plot_equity_curve()
+        self.plot_drawdown()
+        
+    def available_plots(self) -> list[str]:
+        """
+        Return the available backtest visualizations
+        """
+        return [
+            "equity_curve",
+            "drawdown"
+        ]
+    
+    def plot_drawdown(self) -> None:
+        """
+        Plot the portfolio drawdown.
+        """
+        if self.results is None:
+            raise ValueError("No backtest results available")
+        
+        if "Portfolio_Value" not in self.results.columns:
+            raise KeyError("Portfolio_Value column does not exist")
+        
+        plot_drawdown(self.results["Portfolio_Value"])
+        
