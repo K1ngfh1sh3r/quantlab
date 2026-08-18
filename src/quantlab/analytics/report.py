@@ -27,9 +27,15 @@ class BacktestReport:
 
     def get(self, key: str) -> float:
         """
-        Return a statistic value.
+        Return a statistic value
         """
         return self.statistics[key]
+    
+    def all_statistics(self) -> dict[str, float]:
+            """
+            Return all backtest statistics
+            """
+            return self.statistics.copy()
 
     def summary(self) -> str:
         """

@@ -216,3 +216,16 @@ def test_report_has_results():
     report = BacktestReport(stats, results)
     
     assert report.has_results() is True
+    
+def test_report_all_statistics():
+    stats = {
+        "return_pct": 10,
+        "volatility": 2
+    }
+    
+    report = BacktestReport(stats)
+    
+    result = report.all_statistics()
+    
+    assert result == stats
+    assert result is not report.statistics
