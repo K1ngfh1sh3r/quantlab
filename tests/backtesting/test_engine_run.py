@@ -455,3 +455,32 @@ def test_export_csv_rows():
     exported = pd.read_csv("test.csv")
     
     assert len(exported) == 3
+    
+def test_statistics_without_run():
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.statistics()
+
+def test_report_without_run():
+    engine  =BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.report()
+        
+def test_run_single_row():
+    data = pd.DataFrame({
+        "Close": [100]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    result = engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+    
+    assert len(result) == 1
+    assert result["Signal"].iloc[0] == 1
+    assert engine.portfolio.shares == 1
