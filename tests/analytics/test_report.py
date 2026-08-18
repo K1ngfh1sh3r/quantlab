@@ -192,3 +192,27 @@ def test_report_plot(monkeypatch):
     assert result is None
     assert equity_called
     assert drawdown_called
+    
+def test_report_has_no_results():
+    stats = {
+        "return_pct": 10,
+        "volatility": 2
+    }
+    
+    report = BacktestReport(stats)
+    
+    assert report.has_results() is False
+    
+def test_report_has_results():
+    stats = {
+        "return_pct": 10,
+        "volatility": 2
+    }
+    
+    results = pd.DataFrame({
+        "Portfolio_Value": [10000, 11000, 10500]
+    })
+    
+    report = BacktestReport(stats, results)
+    
+    assert report.has_results() is True

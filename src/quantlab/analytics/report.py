@@ -18,6 +18,12 @@ class BacktestReport:
 
         self.statistics = statistics
         self.results = results
+        
+    def has_results(self) -> bool:
+        """
+        Return whether backtest results are available.
+        """
+        return self.results is not None
 
     def get(self, key: str) -> float:
         """
