@@ -103,3 +103,81 @@ def test_buy_all_cash():
     
     assert portfolio.cash == 98.5
     assert portfolio.shares == 99
+    
+def test_buy_invalid_quantity_zero():
+    portfolio = Portfolio(10000)
+    
+    with pytest.raises(ValueError):
+        portfolio.buy(100, 0)
+        
+def test_buy_invalid_quantity_negative():
+    portfolio = Portfolio(10000)
+    
+    with pytest.raises(ValueError):
+        portfolio.buy(100, -1)
+        
+def test_buy_negative_commission():
+    portfolio = Portfolio(10000)
+    
+    with  pytest.raises(ValueError):
+        portfolio.buy(100, 1, commission=-1)
+        
+def test_sell_invalid_quantity_zero():
+    portfolio = Portfolio(10000)
+    
+    portfolio.buy(100, 5)
+    
+    with pytest.raises(ValueError):
+        portfolio.sell(120, 0)
+        
+def test_sell_invalid_quantity_negative():
+    portfolio = Portfolio(10000)
+        
+    portfolio.buy(100, 5)
+        
+    with pytest.raises(ValueError):
+        portfolio.sell(120, -1)
+        
+def test_sell_too_many_shares():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+
+    with pytest.raises(ValueError):
+        portfolio.sell(120, 6)
+
+
+def test_sell_negative_commission():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+
+    with pytest.raises(ValueError):
+        portfolio.sell(120, 1, commission=-1)
+
+
+def test_buy_custom_commission():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5, commission=10)
+
+    assert portfolio.cash == 9490
+    assert portfolio.shares == 5
+
+
+def test_sell_custom_commission():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+    portfolio.sell(120, 2, commission=10)
+
+    assert portfolio.cash == 9728.5
+    assert portfolio.shares == 3
+
+
+def test_portfolio_value_after_trade():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+
+    assert portfolio.value(120) == 10098.5
