@@ -175,24 +175,7 @@ def test_run_portfolio_evolution():
     assert result["Portfolio_Value"].iloc[0] == 9998.5
     assert result["Portfolio_Value"].iloc[1] == 10018.5
     assert result["Portfolio_Value"].iloc[2] == 10028.5
-    
-def test_run_empty_dataframe():
-    
-    data = pd.DataFrame({
-        "Close": []
-    })
-    
-    engine = BacktestEngine(10000)
-    
-    result = engine.run(
-        data,
-        BuyAndHoldStrategy(),
-        "Close"
-    )
-    
-    assert isinstance(result, pd.DataFrame)
-    assert len(result) == 0
-    
+
 class BadStrategy(Strategy):
     
     def generate_signal(self, row):
@@ -484,3 +467,28 @@ def test_run_single_row():
     assert len(result) == 1
     assert result["Signal"].iloc[0] == 1
     assert engine.portfolio.shares == 1
+    
+def test_run_invalid_data_type():
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(TypeError):
+        engine.run(
+            [100, 110, 120],
+            BuyAndHoldStrategy(),
+            "Close"
+        )
+        
+def test_run_empty_dataframe_raises():
+    data = pd.DataFrame({
+        "Close": []
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close"
+        )
+        

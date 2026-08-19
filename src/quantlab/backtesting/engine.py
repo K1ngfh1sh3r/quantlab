@@ -56,13 +56,17 @@ class BacktestEngine:
         
         self.last_price = None
         
-        if price_column not in data.columns:
-            raise KeyError(f"Column {price_column} does not exist")
+        if not isinstance(data, pd.DataFrame):
+            raise TypeError("data must be a pandas DataFrame")
         
         if not isinstance(strategy, Strategy):
-            raise TypeError(
-                "strategy must inherit from Strategy"
-            )
+            raise TypeError("strategy must inherit from Strategy")
+        
+        if data.empty:
+            raise ValueError("data must not be empty")
+        
+        if price_column not in data.columns:
+            raise KeyError(f"Column {price_column} does not exist")
             
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
