@@ -529,3 +529,47 @@ def test_run_invalid_commission_type():
             "Close",
             commission="1.5"
         )
+        
+def test_run_nan_price():
+    data = pd.DataFrame({
+        "Close": [100, float("nan"), 120]
+    })
+
+    engine = BacktestEngine(10000)
+
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close"
+        )
+
+
+def test_run_zero_price():
+    data = pd.DataFrame({
+        "Close": [100, 0, 120]
+    })
+
+    engine = BacktestEngine(10000)
+
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close"
+        )
+
+
+def test_run_negative_price():
+    data = pd.DataFrame({
+        "Close": [100, -10, 120]
+    })
+
+    engine = BacktestEngine(10000)
+
+    with pytest.raises(ValueError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close"
+        )

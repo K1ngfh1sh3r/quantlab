@@ -70,6 +70,12 @@ class BacktestEngine:
         
         if price_column not in data.columns:
             raise KeyError(f"Column {price_column} does not exist")
+        
+        if data[price_column].isna().any():
+            raise ValueError("Price data must not contain NaN values")
+        
+        if (data[price_column] <= 0).any():
+            raise ValueError("Price data must contain only positive values")
             
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
