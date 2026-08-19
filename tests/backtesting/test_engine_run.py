@@ -491,4 +491,41 @@ def test_run_empty_dataframe_raises():
             BuyAndHoldStrategy(),
             "Close"
         )
+
+def test_engine_invalid_initial_capital():
+    with pytest.raises(ValueError):
+        BacktestEngine(0)
         
+def test_engine_negative_initial_capital():
+    with pytest.raises(ValueError):
+        BacktestEngine(-1000)
+        
+def test_run_invalid_quantity_type():
+    data = pd.DataFrame({
+        "Close": [100, 120]
+    })
+    
+    engine =BacktestEngine(10000)
+    
+    with pytest.raises(TypeError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close",
+            quantity="1"
+        )
+        
+def test_run_invalid_commission_type():
+    data = pd.DataFrame({
+        "Close": [100, 120]
+    })
+    
+    engine = BacktestEngine(10000)
+    
+    with pytest.raises(TypeError):
+        engine.run(
+            data,
+            BuyAndHoldStrategy(),
+            "Close",
+            commission="1.5"
+        )

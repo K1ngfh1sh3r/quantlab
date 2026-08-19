@@ -17,6 +17,9 @@ class BacktestEngine:
         self,
         initial_capital: float
     ):
+        if initial_capital <= 0:
+            raise ValueError("initial_capital must be positive")
+        
         self.portfolio = Portfolio(initial_capital)
         self.last_price = None
         self.results = None
