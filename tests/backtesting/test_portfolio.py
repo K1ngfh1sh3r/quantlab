@@ -181,3 +181,39 @@ def test_portfolio_value_after_trade():
     portfolio.buy(100, 5)
 
     assert portfolio.value(120) == 10098.5
+    
+def test_portfolio_zero_initial_capital():
+    with pytest.raises(ValueError):
+        Portfolio(0)
+
+def test_portfolio_negative_initial_capital():
+    with pytest.raises(ValueError):
+        Portfolio(-1000)
+        
+def test_buy_zero_price():
+    portfolio = Portfolio(10000)
+    
+    with pytest.raises(ValueError):
+        portfolio.buy(0, 5)
+        
+def test_buy_negative_price():
+    portfolio = Portfolio(10000)
+    
+    with pytest.raises(ValueError):
+        portfolio.buy(-100, 5)
+        
+def test_sell_zero_price():
+    portfolio = Portfolio(10000)
+    
+    portfolio.buy(100, 5)
+    
+    with pytest.raises(ValueError):
+        portfolio.sell(0, 1)
+        
+def test_sell_negative_price():
+    portfolio = Portfolio(10000)
+    
+    portfolio.buy(100, 5)
+    
+    with pytest.raises(ValueError):
+        portfolio.sell(-100, 1)

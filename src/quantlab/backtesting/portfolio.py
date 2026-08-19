@@ -7,6 +7,9 @@ class Portfolio:
     def __init__(self,
                  initial_capital: float
     ):
+        if initial_capital <= 0:
+            raise ValueError("Initial capital must be positive")
+        
         self.initial_capital = initial_capital
         self.cash = initial_capital
         self.shares = 0
@@ -23,6 +26,9 @@ class Portfolio:
                 commission: float = 1.50
                 
         ) -> None :
+            if price <= 0:
+                raise ValueError("Price must be positive")
+        
             if quantity <= 0:
                 raise ValueError("Quantity must be positive")
         
@@ -49,6 +55,9 @@ class Portfolio:
                 quantity: int,
                 commission: float = 1.50
         ) -> None :
+            if price <= 0:
+                raise ValueError("Price must be positive")
+        
             if quantity <= 0:
                 raise ValueError("Quantity must be positive")
             
