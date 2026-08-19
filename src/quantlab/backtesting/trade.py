@@ -28,6 +28,9 @@ class Trade:
         if trade_type not in self.VALID_TYPES:
             raise ValueError("Invalid trade type")
         
+        if price <= 0:
+            raise ValueError("Price must be positive")
+        
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
             
