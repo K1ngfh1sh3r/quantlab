@@ -358,3 +358,92 @@
 - Full test suite passes with pytest.
 - Ruff checks pass successfully.
 
+---
+
+## Day 23
+
+### Objectives
+
+- Strengthen the backtesting engine.
+- Improve input validation and error handling.
+- Extend test coverage for edge cases.
+
+### Achievements
+
+- Improved `BacktestEngine` input validation.
+- Added validation for:
+  - invalid market data types;
+  - invalid initial capital;
+  - empty datasets;
+  - invalid quantities;
+  - invalid commissions;
+  - invalid strategy objects;
+  - invalid trading signals.
+- Improved engine robustness against invalid inputs.
+- Added extensive unit tests covering engine edge cases.
+- Validated the implementation with pytest and Ruff.
+
+---
+
+## Day 24
+
+### Objectives
+
+- Consolidate the backtesting architecture.
+- Strengthen portfolio and trade components.
+- Improve test coverage and code quality.
+
+### Achievements
+
+- Extended and stabilized the `Portfolio` component.
+- Strengthened transaction handling through the `Trade` model.
+- Added comprehensive tests for:
+  - portfolio initialization;
+  - portfolio valuation;
+  - BUY operations;
+  - SELL operations;
+  - insufficient cash;
+  - insufficient positions;
+  - trade history;
+  - invalid trade types;
+  - invalid quantities.
+- Extended backtesting engine tests.
+- Added tests for CSV export and reporting behavior.
+- Validated the complete backtesting workflow.
+- Full test suite passed successfully.
+- Ruff checks passed successfully.
+- Committed and pushed all changes to GitHub.
+
+---
+
+## Day 25
+
+### Objectives
+
+- Measure the quality and test coverage of QuantLab.
+- Identify remaining uncovered code paths.
+- Prepare the project for the next development phase.
+
+### Achievements
+
+- Audited the complete QuantLab source tree and test suite.
+- Verified the current project architecture across:
+  - analytics;
+  - backtesting;
+  - data;
+  - indicators;
+  - strategies;
+  - visualization.
+- Installed and configured `pytest-cov` inside the project virtual environment.
+- Generated an HTML coverage report.
+- Measured the complete test suite with coverage reporting.
+- Reached **98% overall test coverage**.
+- Executed **210 tests successfully**.
+- Identified only 5 uncovered statements across the project.
+- Confirmed that most core modules currently reach 100% coverage.
+- Verified that the remaining uncovered lines are concentrated in:
+  - `analytics/report.py`;
+  - `backtesting/engine.py`.
+- Confirmed that the project remains fully validated with pytest.
+- Identified minor `ResourceWarning` messages related to unclosed SQLite connections during the test run, without affecting test success.
+- No source-code changes were required during the coverage audit.
