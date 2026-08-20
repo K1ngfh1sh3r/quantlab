@@ -107,3 +107,43 @@ def sharpe_ratio(
         raise ValueError("Sharpe ratio cannot be calculated with zero volatility")
     
     return excess_returns.mean() / standard_deviation
+
+def sortino_ratio(
+    returns: pd.Series,
+    risk_free_rate: float = 0.0
+) -> float:
+    """
+    Calculate the Sortino ratio.
+
+    Args:
+        returns:
+            Series containing periodic portfolio returns.
+
+        risk_free_rate:
+            Minimum acceptable return for the same period
+            as the returns.
+
+    Returns:
+        Sortino ratio.
+
+    Raises:
+        ValueError:
+            If returns is empty.
+        ValueError:
+            If there is no downside deviation.
+    """
+    if returns.empty:
+        raise ValueError("Returns must contain data")
+    
+    excess_returns = returns - risk_free_rate
+    downside_returns = excess_returns[excess_returns < 0]
+    
+    if downside_returns.empty:
+        raise ValueError("Sortino ratio cannot be calculated without downside returns")
+    
+    downside_deviation = downside_returns.std()
+    
+    if downside_deviation == 0:
+        raise ValueError("Sortino ratio cannot be calculated with zero downside deviation")
+    
+    return excess_returns.mean() / downside_deviation

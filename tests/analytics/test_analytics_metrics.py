@@ -1,4 +1,4 @@
-from quantlab.analytics.metrics import (total_return, max_drawdown, volatility, sharpe_ratio)
+from quantlab.analytics.metrics import (total_return, max_drawdown, volatility, sharpe_ratio, sortino_ratio)
 import pytest
 import pandas as pd
 
@@ -162,3 +162,59 @@ def test_sharpe_ratio_zero_volatility():
     
     with pytest.raises(ValueError):
         sharpe_ratio(returns)
+        
+def test_sortino_ratio():
+    returns = pd.Series([
+        0.02,
+        -0.01,
+        0.03,
+        -0.005,
+        0.015
+    ])
+    
+    result = sortino_ratio(returns)
+    
+    assert result > 0
+    
+def test_sortino_ratio_with_risk_free_rate():
+    returns = pd.Series([
+        0.02,
+        -0.01,
+        0.03,
+        -0.005,
+        0.015
+    ])
+    
+    result = sortino_ratio(
+        returns,
+        risk_free_rate=0.005
+    )
+    
+    assert result > 0
+    
+def test_sortino_ratio_empty_returns():
+    returns = pd.Series(dtype=float)
+    
+    with pytest.raises(ValueError):
+        sortino_ratio(returns)
+        
+def test_sortino_ratio_without_downside_returns():
+    returns = pd.Series([
+        0.01,
+        0.02,
+        0.03
+    ])
+    
+    with pytest.raises(ValueError):
+        sortino_ratio(returns)
+        
+def test_sortino_ratio_zero_downside_deviation():
+    returns = pd.Series([
+        0.02,
+        -0.01,
+        0.03,
+        -0.01
+    ])
+    
+    with pytest.raises(ValueError):
+        sortino_ratio(returns)
