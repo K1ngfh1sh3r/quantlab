@@ -1,4 +1,4 @@
-from quantlab.analytics.metrics import (total_return, max_drawdown, volatility)
+from quantlab.analytics.metrics import (total_return, max_drawdown, volatility, sharpe_ratio)
 import pytest
 import pandas as pd
 
@@ -119,3 +119,46 @@ def test_volatility_returns_float():
         ])
             
     assert isinstance(volatility(returns), float)
+    
+def test_sharpe_ratio():
+    returns = pd.Series([
+        0.01,
+        0.02,
+        0.015,
+        0.025
+    ])
+    
+    result = sharpe_ratio(returns)
+    
+    assert result > 0
+    
+def test_sharpe_ratio_with_risk_free_rate():
+    returns = pd.Series([
+        0.01,
+        0.02,
+        0.015,
+        0.025
+    ])
+    
+    result = sharpe_ratio(
+        returns,
+        risk_free_rate=0.005
+    )
+    
+    assert result > 0
+    
+def test_sharpe_ratio_empty_returns():
+    returns = pd.Series(dtype=float)
+    
+    with pytest.raises(ValueError):
+        sharpe_ratio(returns)
+        
+def test_sharpe_ratio_zero_volatility():
+    returns = pd.Series([
+        0.01,
+        0.01,
+        0.01
+    ])
+    
+    with pytest.raises(ValueError):
+        sharpe_ratio(returns)

@@ -73,3 +73,37 @@ def volatility(
         raise ValueError("Returns must contain data")
     
     return returns.std() * 100
+
+def sharpe_ratio(
+    returns: pd.Series,
+    risk_free_rate: float = 0.0
+) -> float :
+    """
+    Calculate the Sharpe ratio
+
+    Args:
+        returns:
+            Series containing periodic portfolio returns
+
+        risk_free_rate:
+            Risk-free rate for the same period as the returns
+
+    Returns:
+        Sharpe ratio
+
+    Raises:
+        ValueError:
+            If returns is empty
+        ValueError:
+            If returns volatility is zero
+    """
+    if returns.empty:
+        raise ValueError("Returns must contain data")
+    
+    excess_returns = returns - risk_free_rate
+    standard_deviation = excess_returns.std()
+    
+    if standard_deviation == 0:
+        raise ValueError("Sharpe ratio cannot be calculated with zero volatility")
+    
+    return excess_returns.mean() / standard_deviation
