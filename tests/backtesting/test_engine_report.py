@@ -40,6 +40,9 @@ def test_report_contains_statistics():
     assert "return_pct" in report.statistics
     assert "max_drawdown" in report.statistics
     assert "volatility" in report.statistics
+    assert "cagr" in report.statistics
+    assert "sharpe_ratio" in report.statistics
+    assert "sortino_ratio" in report.statistics
 
 def test_report_without_run():
     engine = BacktestEngine(10000)

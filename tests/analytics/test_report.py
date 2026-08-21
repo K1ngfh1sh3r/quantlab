@@ -229,3 +229,53 @@ def test_report_all_statistics():
     
     assert result == stats
     assert result is not report.statistics
+    
+def test_report_contains_all_statistics():
+    data = pd.DataFrame({
+        "Close": [100, 120, 110, 130]
+    })
+
+    engine = BacktestEngine(10000)
+
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+
+    report = engine.report()
+
+    expected_statistics = {
+        "initial_capital",
+        "final_value",
+        "profit",
+        "return_pct",
+        "cagr",
+        "max_drawdown",
+        "volatility",
+        "sharpe_ratio",
+        "sortino_ratio",
+    }
+
+    assert expected_statistics.issubset(report.statistics.keys())
+    
+def test_report_all_statistics_contains_risk_metrics():
+    data = pd.DataFrame({
+        "Close": [100, 120, 110, 130]
+    })
+
+    engine = BacktestEngine(10000)
+
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+
+    report = engine.report()
+
+    statistics = report.all_statistics()
+
+    assert "cagr" in statistics
+    assert "sharpe_ratio" in statistics
+    assert "sortino_ratio" in statistics
