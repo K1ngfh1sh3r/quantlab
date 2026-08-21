@@ -13,4 +13,9 @@ class Strategy:
              1 : buy 
         """
         raise NotImplementedError
-        
+    
+    def name(self) -> str:
+        """
+        Return the strategy name
+        """
+        return self.__class__.__name__
