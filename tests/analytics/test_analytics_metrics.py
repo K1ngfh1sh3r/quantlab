@@ -1,4 +1,4 @@
-from quantlab.analytics.metrics import (total_return, max_drawdown, volatility, sharpe_ratio, sortino_ratio)
+from quantlab.analytics.metrics import (total_return, max_drawdown, volatility, sharpe_ratio, sortino_ratio, cagr)
 import pytest
 import pandas as pd
 
@@ -218,3 +218,70 @@ def test_sortino_ratio_zero_downside_deviation():
     
     with pytest.raises(ValueError):
         sortino_ratio(returns)
+        
+def test_cagr():
+    result = cagr(
+        initial_value=10000,
+        final_values=12100,
+        years=2
+    )
+    
+    assert result == pytest.approx(0.10)
+    
+def test_cagr_fractional_years():
+    result = cagr(
+        initial_value=10000,
+        final_values=11000,
+        years=0.5
+    )
+    
+    assert result == pytest.approx(0.21)
+    
+def test_cagr_invalid_initial_value():
+    with pytest.raises(ValueError):
+        cagr(
+            initial_value=0,
+            final_values=10000,
+            years=1
+        )
+        
+def test_cagr_negative_initial_value():
+    with pytest.raises(ValueError):
+        cagr(
+            initial_value=-10000,
+            final_values=12000,
+            years=1
+        )
+        
+def test_cagr_invalid_final_value():
+    with pytest.raises(ValueError):
+        cagr(
+            initial_value=10000,
+            final_values=0,
+            years=1
+        )
+        
+def test_cagr_negative_final_value():
+    with pytest.raises(ValueError):
+        cagr(
+            initial_value=10000,
+            final_values=-5000,
+            years=1
+        )
+        
+def test_cagr_invalid_years():
+    with pytest.raises(ValueError):
+        cagr(
+            initial_value=10000,
+            final_values=12000,
+            years=0
+        )
+        
+def test_cagr_negative_years():
+    with pytest.raises(ValueError):
+        cagr(
+            initial_value=10000,
+            final_values=12000,
+            years=-1
+        )
+        
