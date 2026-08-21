@@ -147,3 +147,43 @@ def sortino_ratio(
         raise ValueError("Sortino ratio cannot be calculated with zero downside deviation")
     
     return excess_returns.mean() / downside_deviation
+
+def cagr(
+    initial_value: float,
+    final_values: float,
+    years: float
+) -> float:
+    """
+    Calculate the Compound Annual Growth Rate.
+
+    Args:
+        initial_value:
+            Initial portfolio value.
+
+        final_value:
+            Final portfolio value.
+
+        years:
+            Duration of the investment in years.
+
+    Returns:
+        Compound Annual Growth Rate as a decimal.
+
+    Raises:
+        ValueError:
+            If initial value is not positive.
+        ValueError:
+            If final value is not positive.
+        ValueError:
+            If duration is not positive.
+    """
+    if initial_value <= 0:
+        raise ValueError("Initial value must be positive")
+    
+    if final_values <= 0:
+        raise ValueError("Final value must be positive")
+    
+    if years <= 0:
+        raise ValueError("Years must be positive")
+    
+    return (final_values / initial_value) ** (1 / years) - 1

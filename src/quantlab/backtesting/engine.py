@@ -1,6 +1,6 @@
 import pandas as pd
 
-from quantlab.analytics.metrics import max_drawdown, total_return, volatility
+from quantlab.analytics.metrics import (max_drawdown, total_return, volatility, cagr, sortino_ratio, sharpe_ratio)
 from quantlab.analytics.report import BacktestReport
 from quantlab.analytics.utils import calculate_returns
 from quantlab.backtesting.portfolio import Portfolio
@@ -126,13 +126,16 @@ class BacktestEngine:
         Calculate backtest performance statistics.
 
         Returns:
-                Dictionary containing:
-                - initial_capital
-                - final_value
-                - profit
-                - return_pct
-                - max_drawdown
-                - volatility
+            Dictionary containing:
+            - initial_capital
+            - final_value
+            - profit
+            - return_pct
+            - max_drawdown
+            - volatility
+            - sharpe_ratio
+            - sortino_ratio
+            - cagr
         """
         if self.last_price is None:
             raise ValueError("No backtest as been run yet")
@@ -145,21 +148,50 @@ class BacktestEngine:
         
         returns = calculate_returns(self.results["Portfolio_Value"])
         
+        clean_returns = returns.dropna()
+        
+        try:
+            sharpe = sharpe_ratio(clean_returns)
+        except ValueError:
+            sharpe = None
+
+        try:
+            sortino = sortino_ratio(clean_returns)
+        except ValueError:
+            sortino = None
+        
+        compound_growth = None
+        
+        if isinstance(self.results.index, pd.DatetimeIndex):
+            duration_days = (self.results.index[-1] - self.results.index[0]).days
+            
+            if duration_days > 0:
+                years = duration_days / 365.25
+                
+                compound_growth = cagr(
+                    self.portfolio.initial_capital,
+                    portfolio_value,
+                    years
+                )
+        
         return {
-    "initial_capital": self.portfolio.initial_capital,
-    "final_value": portfolio_value,
-    "profit": profit,
-    "return_pct": total_return(
-        self.portfolio.initial_capital,
-        portfolio_value
-    ),
-    "max_drawdown": max_drawdown(
-        self.results["Portfolio_Value"]
-    ),
-    "volatility": volatility(
-        returns.dropna()
-    )
-    }
+            "initial_capital": self.portfolio.initial_capital,
+            "final_value": portfolio_value,
+            "profit": profit,
+            "return_pct": total_return(
+                self.portfolio.initial_capital,
+                portfolio_value
+            ),
+            "max_drawdown": max_drawdown(
+                self.results["Portfolio_Value"]
+            ),
+            "volatility": volatility(
+                returns.dropna()
+            ),
+            "sharpe_ratio": sharpe,
+            "sortino_ratio": sortino,
+            "cagr": compound_growth,
+        }
     
     def export_csv(self, filename: str) -> None:
         if self.results is None:
