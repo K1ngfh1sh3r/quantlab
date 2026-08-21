@@ -217,3 +217,52 @@ def test_sell_negative_price():
     
     with pytest.raises(ValueError):
         portfolio.sell(-100, 1)
+        
+def test_multiple_buys_update_portfolio_correctly():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+    portfolio.buy(200, 2)
+
+    assert portfolio.shares == 7
+    assert portfolio.cash == 9097
+    assert len(portfolio.trade_history) == 2
+
+
+def test_multiple_sells_update_portfolio_correctly():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+    portfolio.sell(120, 2)
+    portfolio.sell(130, 3)
+
+    assert portfolio.shares == 0
+    assert portfolio.cash == 10125.5
+    assert len(portfolio.trade_history) == 3
+
+
+def test_trade_history_preserves_order():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+    portfolio.buy(110, 2)
+    portfolio.sell(120, 3)
+    portfolio.sell(130, 4)
+
+    assert [trade.trade_type for trade in portfolio.trade_history] == [
+        "BUY",
+        "BUY",
+        "SELL",
+        "SELL",
+    ]
+
+
+def test_portfolio_value_after_multiple_trades():
+    portfolio = Portfolio(10000)
+
+    portfolio.buy(100, 5)
+    portfolio.buy(200, 2)
+    portfolio.sell(150, 3)
+
+    assert portfolio.shares == 4
+    assert portfolio.value(180) == 10265.5
