@@ -23,6 +23,7 @@ class BacktestEngine:
         self.portfolio = Portfolio(initial_capital)
         self.last_price = None
         self.results = None
+        self.strategy_name = None
     
     def run(self,
             data: pd.DataFrame,
@@ -64,6 +65,8 @@ class BacktestEngine:
         
         if not isinstance(strategy, Strategy):
             raise TypeError("strategy must inherit from Strategy")
+        
+        self.strategy_name = strategy.name()
         
         if data.empty:
             raise ValueError("data must not be empty")
@@ -208,5 +211,6 @@ class BacktestEngine:
         
         return BacktestReport(
             self.statistics(),
-            self.results
+            self.results,
+            self.strategy_name
         )

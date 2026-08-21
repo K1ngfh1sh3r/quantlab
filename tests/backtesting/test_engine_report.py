@@ -66,3 +66,20 @@ def test_report_get_value():
     report = engine.report()
     
     assert report.get("return_pct") == report.statistics["return_pct"]
+    
+def test_engine_report_contains_strategy_name():
+    data = pd.DataFrame({
+        "Close": [100, 120, 110]
+    })
+
+    engine = BacktestEngine(10000)
+
+    engine.run(
+        data,
+        BuyAndHoldStrategy(),
+        "Close"
+    )
+
+    report = engine.report()
+
+    assert report.get_strategy_name() == "BuyAndHoldStrategy"

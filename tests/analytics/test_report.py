@@ -279,3 +279,51 @@ def test_report_all_statistics_contains_risk_metrics():
     assert "cagr" in statistics
     assert "sharpe_ratio" in statistics
     assert "sortino_ratio" in statistics
+    
+def test_report_strategy_name():
+    stats = {
+        "return_pct": 10,
+        "volatility": 2
+    }
+
+    report = BacktestReport(
+        stats,
+        strategy_name="TestStrategy"
+    )
+
+    assert report.get_strategy_name() == "TestStrategy"
+    
+def test_summary_contains_strategy_name():
+    stats = {
+        "initial_capital": 10000,
+        "final_value": 11000,
+        "profit": 1000,
+        "return_pct": 10,
+        "max_drawdown": 5,
+        "volatility": 2
+    }
+
+    report = BacktestReport(
+        stats,
+        strategy_name="RSIStrategy"
+    )
+
+    summary = report.summary()
+
+    assert "Strategy: RSIStrategy" in summary
+    
+def test_summary_without_strategy_name():
+    stats = {
+        "initial_capital": 10000,
+        "final_value": 11000,
+        "profit": 1000,
+        "return_pct": 10,
+        "max_drawdown": 5,
+        "volatility": 2
+    }
+
+    report = BacktestReport(stats)
+
+    summary = report.summary()
+
+    assert "Strategy:" not in summary

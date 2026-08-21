@@ -11,13 +11,15 @@ class BacktestReport:
     def __init__(
         self,
         statistics: dict[str, float],
-        results: pd.DataFrame | None = None
+        results: pd.DataFrame | None = None,
+        strategy_name: str | None = None
     ):
         if not isinstance(statistics, dict):
             raise TypeError("statistics must be a dictionary")
 
         self.statistics = statistics
         self.results = results
+        self.strategy_name = strategy_name
         
     def has_results(self) -> bool:
         """
@@ -41,13 +43,19 @@ class BacktestReport:
         """
         Generate a readable performance summary.
         """
+        strategy_line = ""
+        
+        if self.strategy_name is not None:
+            strategy_line = f"Strategy: {self.strategy_name}\n"
+        
         return (
-            f'Initial Capital: {self.statistics["initial_capital"]}\n'
-            f'Final Value: {self.statistics["final_value"]}\n'
-            f'Profit: {self.statistics["profit"]}\n'
-            f'Return: {self.statistics["return_pct"]:.2f}%\n'
-            f'Max Drawdown: {self.statistics["max_drawdown"]:.2f}%\n'
-            f'Volatility: {self.statistics["volatility"]:.2f}%\n'
+            strategy_line
+            + f'Initial Capital: {self.statistics["initial_capital"]}\n'
+            + f'Final Value: {self.statistics["final_value"]}\n'
+            + f'Profit: {self.statistics["profit"]}\n'
+            + f'Return: {self.statistics["return_pct"]:.2f}%\n'
+            + f'Max Drawdown: {self.statistics["max_drawdown"]:.2f}%\n'
+            + f'Volatility: {self.statistics["volatility"]:.2f}%\n'
         )
 
     def plot_equity_curve(self) -> None:
@@ -90,3 +98,8 @@ class BacktestReport:
         
         plot_drawdown(self.results["Portfolio_Value"])
         
+    def get_strategy_name(self) -> str | None:
+        """
+        Return the name of the strategy used for the backtest.
+        """
+        return self.strategy_name
